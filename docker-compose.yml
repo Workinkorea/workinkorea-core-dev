@@ -1,0 +1,22 @@
+name: work_in_korea_backbone
+
+include:
+  # proxy 서비스
+  - path: ./traefik/docker-compose.yml
+    profiles: [ 'proxy' ]
+
+  # CI/CD 서비스
+  - path: ./jenkins/docker-compose.yml
+    profiles: [ 'cicd' ]
+
+  # DB 서비스
+  - path: ./database/postgresql-dev/docker-compose.yml
+    profiles: [ 'db' ]
+
+  # S3 서비스
+  - path: ./minio/docker-compose.yml
+    profiles: [ 's3' ]
+
+networks:
+  core_network:
+    external: true
