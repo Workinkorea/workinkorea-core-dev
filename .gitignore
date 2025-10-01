@@ -1,0 +1,12 @@
+# env file
+.env
+
+# data file
+data/
+**/data/
+
+# logs file
+logs/
+
+# mac os
+.DS_Store
