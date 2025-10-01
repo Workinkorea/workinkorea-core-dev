@@ -1,0 +1,66 @@
+services:
+  traefik:
+    image: traefik:v3.4
+    container_name: traefik
+    profiles: [ 'proxy' ]
+    restart: unless-stopped
+    networks:
+      - core_network
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8080"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./logs:/logs
+      - ./data:/data
+
+
+    command:
+      # EntryPoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
+      # Providers 
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=core_network"
+
+      # Dashboard 설정
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+
+      # Logs 설정 (추후 추가 예정)
+      # - "--log.level=INFO"
+      # - "--log.filepath=/logs/traefik.log"
+      # - "--accesslog=true"
+      # - "--accesslog.filters.statuscodes=200-599"
+      # - "--accesslog.filepath=/logs/access.log"
+      # - "--accesslog.bufferingsize=100"
+
+      # Let's Encrypt 설정
+      - "--certificatesresolvers.le.acme.email=${LETSENCRYPT_EMAIL}"
+      - "--certificatesresolvers.le.acme.storage=/data/acme.json"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+
+    labels:
+      # Dashboard 설정
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`tr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+      # Dashboard basic auth 설정
+      - "traefik.http.routers.traefik.middlewares=dashboard@docker"
+      - "traefik.http.middlewares.dashboard.basicauth.users=${DASHBOARD_BASIC_AUTH_USERS}"
+
+networks:
+  core_network:
+    external: true
