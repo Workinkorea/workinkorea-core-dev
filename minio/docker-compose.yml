@@ -1,0 +1,45 @@
+# minio docker-compose.yml
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    profiles: [ 's3' ]
+    restart: unless-stopped
+    env_file: ../.env
+    networks: 
+      - core_network
+    
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+
+      # minio 도메인 설정
+      - MINIO_DOMAIN=${MINIO_SUB_DOMAIN_API}.${BASE_DOMAIN}
+      - MINIO_BROWSER_REDIRECT_URL=https://${MINIO_SUB_DOMAIN_UI}.${BASE_DOMAIN}
+    
+    command: server /data --console-address ":${MINIO_PORT_UI}"
+    
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_PORT_UI}:9001"
+    volumes:
+      - ./data:/data
+    
+    labels:
+      # minio api 설정
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio.rule=Host(`${MINIO_SUB_DOMAIN_API}.${BASE_DOMAIN}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.minio.entrypoints=websecure"
+      - "traefik.http.routers.minio.tls.certresolver=le"
+      - "traefik.http.services.minio.loadbalancer.server.port=9000"
+
+      # minio ui 설정
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio.rule=Host(`${MINIO_SUB_DOMAIN_UI}.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.minio.entrypoints=websecure"
+      - "traefik.http.routers.minio.tls.certresolver=le"
+      - "traefik.http.services.minio.loadbalancer.server.port=9001"
+
+networks:
+  core_network:
+    external: true
