@@ -31,6 +31,8 @@ docker-compose --profile proxy up -d
 ```bash
 BASE_DOMAIN=yourdomain.com
 LETSENCRYPT_EMAIL=your-email@example.com
+TRAEFIK_PORT=8080
+DASHBOARD_BASIC_AUTH_USERS=admin:password123
 ```
 
 ## 서비스 연동

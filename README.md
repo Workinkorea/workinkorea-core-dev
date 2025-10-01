@@ -27,6 +27,8 @@ BASE_DOMAIN=yourdomain.com
 
 # Traefik 설정
 LETSENCRYPT_EMAIL=your-email@example.com
+TRAEFIK_PORT=8080
+DASHBOARD_BASIC_AUTH_USERS=admin:password123
 
 # PostgreSQL 설정
 POSTGRES_USER=postgres
