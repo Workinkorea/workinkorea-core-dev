@@ -50,6 +50,7 @@ check_environment(){
 
     if ! [ -f .env ]; then
         print_error ".env 파일이 없습니다."
+        exit 1
     fi
 
     if ! command -v docker &> /dev/null; then
