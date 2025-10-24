@@ -12,6 +12,9 @@ include:
   # DB 서비스
   - path: ./database/postgresql-dev/docker-compose.yml
     profiles: [ 'db' ]
+  
+  - path: ./database/redis-dev/docker-compose.yml
+    profiles: [ 'db' ]
 
   # S3 서비스
   - path: ./minio/docker-compose.yml
