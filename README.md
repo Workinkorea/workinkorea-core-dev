@@ -9,6 +9,7 @@ Work in Korea core 시스템의 마이크로서비스 인프라입니다.
 | **Traefik** | `proxy` | 80, 443, 8081 | 리버스 프록시 및 SSL 관리 |
 | **Jenkins** | `cicd` | 8080, 50000 | CI/CD 파이프라인 |
 | **PostgreSQL** | `db` | 5432 | 메인 데이터베이스 |
+| **Redis** | `redis` | 6379 | 캐시 데이터베이스 |
 | **MinIO** | `s3` | 9000, 9001 | S3 호환 객체 스토리지 |
 
 ## 빠른 시작
@@ -28,13 +29,17 @@ BASE_DOMAIN=yourdomain.com
 # Traefik 설정
 LETSENCRYPT_EMAIL=your-email@example.com
 TRAEFIK_PORT=8080
-DASHBOARD_BASIC_AUTH_USERS=admin:password123
+DASHBOARD_BASIC_AUTH_USERS=admin:pyour-password
 
 # PostgreSQL 설정
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password123
+POSTGRES_PASSWORD=your-password
 POSTGRES_DB=workinkorea
 POSTGRES_PORT=5432
+
+# Redis 설정
+REDIS_PASSWORD=your-password
+REDIS_PORT=6379
 
 # Jenkins 설정
 JENKINS_PORT=8080
@@ -42,7 +47,7 @@ JENKINS_SLAVE_PORT=50000
 
 # MinIO 설정
 MINIO_ROOT_USER=admin
-MINIO_ROOT_PASSWORD=password123
+MINIO_ROOT_PASSWORD=your-password
 MINIO_SUB_DOMAIN_API=api-s3
 MINIO_SUB_DOMAIN_UI=ui-s3
 MINIO_PORT=9000
@@ -57,7 +62,7 @@ docker-compose up -d
 
 # 특정 서비스만 실행
 docker-compose --profile proxy up -d    # Traefik만
-docker-compose --profile db up -d       # PostgreSQL만
+docker-compose --profile db up -d       # PostgreSQL, Redis만
 docker-compose --profile cicd up -d     # Jenkins만
 docker-compose --profile s3 up -d       # MinIO만
 ```
@@ -66,10 +71,10 @@ docker-compose --profile s3 up -d       # MinIO만
 
 | 서비스 | URL | 인증 |
 |--------|-----|------|
-| **Traefik Dashboard** | `https://tr.yourdomain.com` | admin / password |
+| **Traefik Dashboard** | `https://tr.yourdomain.com` | admin / your-password |
 | **Jenkins** | `https://jenkins.yourdomain.com` | 초기 설정 필요 |
-| **MinIO API** | `https://api-s3.yourdomain.com/api` | admin / password123 |
-| **MinIO UI** | `https://ui-s3.yourdomain.com` | admin / password123 |
+| **MinIO API** | `https://api-s3.yourdomain.com/api` | admin / your-password |
+| **MinIO UI** | `https://ui-s3.yourdomain.com` | admin / your-password |
 
 ## 서비스별 상세 문서
 
