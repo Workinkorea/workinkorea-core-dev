@@ -5,6 +5,7 @@ Work in Korea core 시스템의 데이터베이스 서비스입니다.
 ## 포함된 데이터베이스
 
 - **PostgreSQL 17.4**: 메인 관계형 데이터베이스
+- **Redis**: 캐시 데이터베이스
 
 ## 실행 방법
 
@@ -20,10 +21,14 @@ docker-compose --profile db up -d
 ```bash
 # PostgreSQL 설정
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password123
+POSTGRES_PASSWORD=your-password
 POSTGRES_DB=your_database_name
 POSTGRES_PORT=5432
 POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+
+# Redis 설정
+REDIS_PASSWORD=your-password
+REDIS_PORT=6379
 ```
 
 ## 데이터베이스 접근
@@ -33,7 +38,7 @@ POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
 - **포트**: 5432 (기본값)
 - **데이터베이스**: your_database_name
 - **사용자**: postgres
-- **비밀번호**: password123
+- **비밀번호**: your-password
 
 ## 로그 확인
 
