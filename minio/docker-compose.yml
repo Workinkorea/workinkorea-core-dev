@@ -28,17 +28,19 @@ services:
     labels:
       # minio api 설정
       - "traefik.enable=true"
-      - "traefik.http.routers.minio.rule=Host(`${MINIO_SUB_DOMAIN_API}.${BASE_DOMAIN}`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.minio.entrypoints=websecure"
-      - "traefik.http.routers.minio.tls.certresolver=le"
-      - "traefik.http.services.minio.loadbalancer.server.port=9000"
+      - "traefik.http.routers.minio-api.rule=Host(`${MINIO_SUB_DOMAIN_API}.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.minio-api.entrypoints=websecure"
+      - "traefik.http.routers.minio-api.tls.certresolver=le"
+      - "traefik.http.routers.minio-api.service=minio-api"
+      - "traefik.http.services.minio-api.loadbalancer.server.port=9000"
 
       # minio ui 설정
       - "traefik.enable=true"
-      - "traefik.http.routers.minio.rule=Host(`${MINIO_SUB_DOMAIN_UI}.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.minio.entrypoints=websecure"
-      - "traefik.http.routers.minio.tls.certresolver=le"
-      - "traefik.http.services.minio.loadbalancer.server.port=9001"
+      - "traefik.http.routers.minio-console.rule=Host(`${MINIO_SUB_DOMAIN_UI}.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.minio-console.entrypoints=websecure"
+      - "traefik.http.routers.minio-console.tls.certresolver=le"
+      - "traefik.http.routers.minio-console.service=minio-console"
+      - "traefik.http.services.minio-console.loadbalancer.server.port=9001"
 
 networks:
   core_network:
