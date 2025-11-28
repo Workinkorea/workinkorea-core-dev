@@ -16,6 +16,9 @@ services:
       # minio 도메인 설정
       - MINIO_DOMAIN=${MINIO_SUB_DOMAIN_API}.${BASE_DOMAIN}
       - MINIO_BROWSER_REDIRECT_URL=https://${MINIO_SUB_DOMAIN_UI}.${BASE_DOMAIN}
+
+      # minio 리전 설정
+      - MINIO_REGION=us-east-1
     
     command: server /data --console-address ":${MINIO_PORT_UI}"
     
