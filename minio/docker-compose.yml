@@ -19,6 +19,9 @@ services:
 
       # minio 리전 설정
       - MINIO_REGION=us-east-1
+
+      # minio api cors 설정
+      - MINIO_API_CORS_ALLOW_ORIGIN=*
     
     command: server /data --console-address ":${MINIO_PORT_UI}"
     
