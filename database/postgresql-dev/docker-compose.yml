@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:17.4
     profiles: [ 'db' ]
-    container_name: postgres_dev
+    container_name: wk_postgres_dev
     env_file:
       - ../../.env
     environment:

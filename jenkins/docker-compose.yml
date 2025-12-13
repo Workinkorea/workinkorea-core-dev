@@ -3,7 +3,7 @@ services:
   jenkins:
     image: jenkins/jenkins:lts-jdk17
     profiles: [ 'cicd' ]
-    container_name: jenkins
+    container_name: wk_jenkins_dev
     hostname: jenkins.${BASE_DOMAIN}
     user: root
     env_file:

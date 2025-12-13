@@ -3,7 +3,7 @@
 services:
   redis:
     image: redis:latest
-    container_name: redis_dev
+    container_name: wk_redis_dev
     profiles: [ 'db' ]
     restart: unless-stopped
     env_file:

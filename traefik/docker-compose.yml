@@ -1,7 +1,7 @@
 services:
   traefik:
     image: traefik:v3.4
-    container_name: traefik
+    container_name: wk_traefik_dev
     profiles: [ 'proxy' ]
     restart: unless-stopped
     networks:

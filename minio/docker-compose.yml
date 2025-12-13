@@ -2,7 +2,7 @@
 services:
   minio:
     image: minio/minio:latest
-    container_name: minio
+    container_name: wk_minio_dev
     profiles: [ 's3' ]
     restart: unless-stopped
     env_file: ../.env
