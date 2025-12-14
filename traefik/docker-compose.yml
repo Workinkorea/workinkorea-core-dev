@@ -15,6 +15,9 @@ services:
       - ./logs:/logs
       - ./data:/data
 
+    environment:
+      - CF_API_EMAIL=${CF_API_EMAIL}
+      - CF_API_KEY=${CF_API_KEY}
 
     command:
       # EntryPoints
@@ -45,7 +48,9 @@ services:
       # Let's Encrypt 설정
       - "--certificatesresolvers.le.acme.email=${LETSENCRYPT_EMAIL}"
       - "--certificatesresolvers.le.acme.storage=/data/acme.json"
-      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.dnschallenge=true"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider=cloudflare"
+      # - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
 
     labels:
       # Dashboard 설정
